@@ -1,0 +1,126 @@
+﻿@model Ferris_Test.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+
+    //Ferris Added
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.autocomplete.js"></script>
+    <script>
+        $(document).ready(function () {             
+            $("#flip").click(function () {
+               
+                var str = $('#intxt').val();
+                var arr = new Array();
+                // this will return an array with strings "1", "2", etc.
+                arr = str.split(",");
+                $.each(arr, function (index, value) {
+                    //this.value += '\n\n';
+                    $("#paneltxt").append(value);
+                    $("#paneltxt").append('<br/>');
+                });
+            $("#paneltxt").slideToggle("slow");
+        });
+    });
+    </script>
+
+    <style>
+        #panel, #flip {
+            padding: 5px;
+            text-align: center;
+            background-color: #e5eecc;
+            border: solid 1px #c3c3c3;
+        }
+
+        #paneltxt {
+            padding: 50px;
+            display: none;
+        }
+    </style>
+    <div>        
+        <input type="text" id="intxt"/>
+    </div>
+    <div>
+        <div>
+            <div id="flip">Click to see the list</div>
+        </div>
+    </div>
+    <div id="paneltxt"></div>
+     
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
+    <script>
+        $(function () {
+            var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+            ];
+            $("#tags").autocomplete({
+                source: availableTags
+            });
+        });
+    </script>
+    <div class="ui-widget">
+        <label for="tags">Tags: </label>
+        <input id="tags">
+    </div>*@
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

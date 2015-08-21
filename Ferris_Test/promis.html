@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //function y1(resolve, reject) {
+            //    alert("call back fired");
+            //    resolve();
+                
+            //}           
+            //var promise = new Promise(y1);
+            //function success() {
+            //    console.log("Successful");
+            //    alert("Success");
+            //}
+            //function error(e) {
+            //    console.log(e);
+            //    alert("error");
+            //}
+            //promise.then(success, error);
+            ////////////////////////////////////
+            
+            //var someAsyncThing = function () {
+            //    return new Promise(function (resolve, reject) {
+            //        var x = 2;
+            //        resolve(x + 2);
+            //    });
+            //};
+
+            //var someOtherAsyncThing = function () {
+            //    return new Promise(function (resolve, reject) {
+            //        console.log('everything is great');
+            //    });
+            //};
+
+            //someAsyncThing().then(function () {
+            //    return someOtherAsyncThing();
+            //}).catch(function (error) {
+            //    console.log('oh no', error);
+            //});
+            
+            
+            //////////////
+
+            //var greetingPromise = sayHello();
+            //greetingPromise.then(function (greeting) {
+            //    console.log(greeting);    // 'hello world’
+            //}, function (error) {
+            //    console.error('uh oh: ', error);   // 'uh oh: something bad happened’
+            //});
+                       
+
+           ////////////////////
+            function logItem(item) {
+                console.log(item);
+            }
+
+            //// Try it out  1
+            //function each(arr, callback) {
+            //    for (var i = 0; i < arr.length; ++i) {
+            //        // Invoke the callback synchronously for each iteration
+            //        callback(arr[i]);
+            //    }
+            //}            
+            //console.log("begin");
+            //each([1, 2, 3], logItem); // "logItem" is our "callback" function here
+            //console.log("end");
+
+
+            // Try it out 2
+            function asyncEach3(arr, callback) {
+                // Utility inner function to create a wrapper function for the callback
+                //function makeCallbackWrapper(arr, i, callback) {
+                //    // Create our function scope for use inside the loop
+                //    return function () {
+                //        callback(arr[i]);
+                //    }
+                //}
+                //for (var i = 0; i < arr.length; ++i) {
+                //    setTimeout(makeCallbackWrapper(arr, i, callback), 0);
+                //}
+
+                function foo() {
+                    console.log("foo");
+                    
+                }
+                
+                function makeCallbackWrapper(item, callback) {
+                    // Create our function scope for use inside the loop
+                   
+                    return function () {
+                        for (var i = 0; i < 99999999; ++i) {
+                            ////long running process
+                        }
+                        callback(item);
+                    }
+                }
+           
+                setTimeout(foo, 5000);
+                setTimeout(makeCallbackWrapper("async", callback), 0);
+            }
+
+            console.log("begin");
+            asyncEach3([1, 2, 3], logItem);
+            console.log("end");
+
+
+            //// Try it out 3
+            ////Sequencing of Async Code
+            //function asyncEach4(arr, callback) {
+            //    for (var i = 0; i < arr.length; ++i) {
+                    
+            //        var boundCallback = callback.bind(null, arr[i]);
+            //        setTimeout(boundCallback, 5555);
+            //    }
+            //}
+
+            //console.log("begin");
+            //asyncEach4([1, 2, 3], logItem);
+            //console.log("end");
+
+            
+
+        });
+
+
+
+
+    </script>
+    </head>
+    <body>
+
+    </body>
+    </html>

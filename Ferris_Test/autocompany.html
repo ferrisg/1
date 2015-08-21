@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>AutoComplete Box with jQuery</title>
+    <!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+
+        var availableTutorials = "";
+        var url = "";
+        var cityholder = "";
+        var state = "";
+        $(document).ready(function () {        
+            
+            $("#automplete-3").autocomplete({   
+                source: function( request, response ) {
+                    // url = "http://localhost:64805/api/values/City?st1=" + state + '&st2=' + $('#automplete-3').val();
+                    url = "http://localhost:64805/api/values/City?st1=GA&st2=par";
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: url,
+                        //data: "{}",
+                        dataType: "json",
+                        data: {
+                            q: request.term
+                        },
+                        success: function (data) {
+                            response(data);
+                            
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                },
+                minLength: 1,
+                focus: function () {
+                    // prevent value inserted on focus
+                    return false;
+                },
+
+                select: function( event, ui ) {
+                    var terms = split(this.value);                    
+                    terms.pop();                   
+                    terms.push(ui.item.value);
+                    terms.push("");
+                    this.value = terms.join(", ");
+                    return false;
+                },
+                open: function() {
+                    $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                },
+                close: function() {
+                    $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                }
+            });
+               
+
+     
+
+
+            ///$("#myul li").click(function () {
+            $(".fg1 li").click(function () {
+                state = $(this).text();
+                //alert(this.id); // id of clicked li by directly accessing DOMElement property
+                //alert($(this).attr('id')); // jQuery's .attr() method, same but more verbose
+                //alert($(this).html()); // gets innerHTML of clicked li
+                //////alert($(this).text()); // gets text contents of clicked li
+                   //alert($(this).attr('href'));
+              
+
+            });
+
+
+            $("#btncity").click(function () {
+                $('#automplete-3').val($('#hdn').val());
+               // alert($('#hdn').val());
+            });
+            ////SearchText();
+
+            $("#automplete-3").bind("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+						$(this).data("autocomplete").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+
+            
+	    });
+       
+
+    </script>
+</head>
+<body>
+
+
+    <label for="tbAuto">Enter city: </label>
+    <input type="text" id="automplete-3" size="100" />
+
+
+    <button id="btncity" style="width:50px;height:40px">Press</button>
+    <br />
+    <input type="text" id="hdn" size="100" />
+
+
+    <br />
+    <div class="fg1">
+        <ul id="myul" class="jstree-no-dots jstree-no-icons">
+            <li id="li1">
+                <a class="info_link" href="#">Ga</a>
+            </li>
+            <li id="li2">
+                <a class="info_link" href="#">fl</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <button id="btncity2" style="width:50px;height:40px">auto</button>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#dialog").dialog({
+                autoOpen: false,
+                resizable: true,
+                width: "350",
+                height: 300,
+                modal: true,
+                buttons: {
+                    "Close": function () {
+                        // if textarea is not empty close the modal and do something with the value
+                        if ($(this).find('textarea').val().length) $(this).dialog("close");
+                        else $(this).find('textarea').css({ borderColor: 'red' });
+                    }
+                }
+            });
+        });
+
+        function showDialog1() {
+            $('#dialog').find('textarea').val(''); // clear textarea on modal open
+            $("#dialog").dialog("option", "title", "Loading....").dialog("open");
+            $("span.ui-dialog-title").text('title here');
+        }
+
+    </script>
+</head>
+<body>
+    <input type="submit" value="dialog1" onclick="return showDialog1()" />
+    <div id="dialog">
+        <p>
+            <textarea></textarea>
+        </p>
+    </div>
+    <br>
+
+</body>
+</html>

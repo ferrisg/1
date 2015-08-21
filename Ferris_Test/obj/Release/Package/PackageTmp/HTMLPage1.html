@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+
+    <!--<script type="text/javascript" src="scripts/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="src/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="scripts/countries.js"></script>
+    <script type="text/javascript" src="scripts/demo.js"></script>-->
+
+    <script>
+        var cityholder = "";
+        $(document).ready(function () { 
+            $("#intxt").click(function () {               
+                    $(this).select();               
+            });
+            SearchText();
+        });
+        
+
+        $(function () {
+            $("#dialog").dialog({
+                autoOpen: false,
+                resizable: true,
+                width: "350",
+                height: 300,
+                modal: true,
+                buttons: {
+                    "Close": function () {                       
+                        var lines = $('textarea').val().split('\n');                    
+                        $('#intxt').val(lines);
+                        $('#hdn').val(lines);
+                        cityholder = lines;
+                        if ($(this).find('textarea').val().length) {
+                            //$('#dialog').find('textarea').val('');
+                            $(this).dialog("close");
+                        }
+                        else $(this).find('textarea').css({ borderColor: 'red' });
+                    }
+                }
+            });
+        });
+
+        function showDialog1() {
+            $('#intxt').val($('#hdn').val());
+            $('#dialog').find('textarea').val('');
+            var str = $('#intxt').val();
+            var arr = new Array();            
+            arr = str.split(",");
+            $.each(arr, function (index, value) {
+                if (value.length) {
+                    //$('#dialog').find('textarea').append(value);
+                    //$('#dialog').find('textarea').append("\n");
+                    var txt = value;
+                    var box = $("#txtareacity");
+                    box.val(box.val() + txt + "\n");
+                }
+            });            
+            $("#dialog").dialog("option", "title", "Loading....").dialog("open");
+            $("span.ui-dialog-title").text('Cities');
+
+                        
+              
+           
+        }
+
+        //$(document).ready(function () {
+        //    $('#intxt').focus(function () {
+        //        //$('#dialog').find('textarea').val('');
+        //        var str = $('#intxt').val();
+        //        var arr = new Array();
+        //        arr = str.split(",");
+        //        $.each(arr, function (index, value) {
+        //            if (value.length) {
+        //                $('#dialog').find('textarea').append(value);
+        //                $('#dialog').find('textarea').append("\n");
+        //            }
+        //        });
+        //        $("#dialog").dialog("option", "title", "Loading....").dialog("open");
+        //        $("span.ui-dialog-title").text('Cities');
+        //    });
+ 
+        //});
+
+        function SearchText() {
+            
+            var availableTutorials = [
+                "ActionScript",
+                "Boostrap",
+                "C",
+                "C++",
+                "Ecommerce",
+                "Jquery",
+                "Groovy",
+                "Java",
+                "JavaScript",
+                "Lua",
+                "Perl",
+                "Ruby",
+                "Scala",
+                "Swing",
+                "XHTML"
+            ];
+
+            $("#intxt").autocomplete({
+                source: availableTutorials,
+                focus: function () {
+                    this.value = "";
+                    return false;
+                },
+
+                select: function (event, ui) {
+
+                    var terms = split(this.value);
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push(ui.item.value);
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    cityholder += terms.join(",");
+                    $('#hdn').val(cityholder);
+                    this.value = "";
+                    //alert(cityholder);
+                    return false;
+                }
+            });
+            $("#intxt").bind("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+						$(this).data("autocomplete").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" id="intxt" size="100" />
+        <input type="submit" value="dialog1" onclick="return showDialog1()" />
+        <input type="hidden" id="hdn" />
+    </div>  
+  
+    <div id="dialog">       
+            <textarea style="width: 291px; height: 155px;" id="txtareacity"></textarea>        
+    </div>
+    <br>
+
+</body>
+</html>

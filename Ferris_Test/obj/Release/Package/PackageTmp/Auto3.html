@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>AutoComplete Box with jQuery</title>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+
+        var availableTutorials = "";
+        var url = "";
+        var cityholder = "";
+        $(document).ready(function () {
+            
+            ///$("#myul li").click(function () {
+               $(".fg1 li").click(function () {
+                //alert(this.id); // id of clicked li by directly accessing DOMElement property
+                //alert($(this).attr('id')); // jQuery's .attr() method, same but more verbose
+                //alert($(this).html()); // gets innerHTML of clicked li
+                //////alert($(this).text()); // gets text contents of clicked li
+                   //alert($(this).attr('href'));
+                url = "http://localhost:64805/api/values/City?st1=" + $(this).text();
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: url,
+                    //data: "{}",
+                    dataType: "json",
+                    success: function(msg) {
+                    //$('#RSSContent').html(msg);
+                    //alert(msg);
+                        availableTutorials = msg;
+                        $("#automplete-3").autocomplete({
+                            source: availableTutorials,               
+                            focus: function () {
+                                // prevent value inserted on focus
+                                return false;
+                            },
+
+                            select: function (event, ui) {
+                                var terms = split(this.value);
+                                // remove the current input
+                                terms.pop();
+                                // add the selected item
+                                terms.push(ui.item.value);
+                                // add placeholder to get the comma-and-space at the end
+                                terms.push("");
+                                cityholder += terms.join(",");
+                                $('#hdn').val(cityholder);
+                                this.value = "";
+                                //alert(cityholder);
+                                return false;
+                            }
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            });
+            
+
+            $("#btncity").click(function () {    
+                $('#automplete-3').val($('#hdn').val());
+               // alert($('#hdn').val());
+            });
+            ////SearchText();
+           
+            $("#automplete-3").bind("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB &&
+						$(this).data("autocomplete").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+	    });
+        //function SearchText() {
+            
+        //    //availableTutorials = [
+        //    //    "ActionScript",
+        //    //    "Boostrap",
+        //    //    "C",
+        //    //    "C++",
+        //    //    "Ecommerce",
+        //    //    "Jquery",
+        //    //    "Groovy",
+        //    //    "Java",
+        //    //    "JavaScript",
+        //    //    "Lua",
+        //    //    "Perl",
+        //    //    "Ruby",
+        //    //    "Scala",
+        //    //    "Swing",
+        //    //    "XHTML"
+        //    //];
+            
+	     
+	    //}
+    </script>
+</head>
+<body> 
+
+            
+                <label for="tbAuto">Enter city: </label>
+                <input type="text" id="automplete-3" size="100" />
+                
+
+    <button id="btncity" style="width:50px;height:40px" >Press</button>
+    <br />
+    <input type="text" id="hdn" size="100" />
+
+
+    <br />
+    <div class="fg1">
+        <ul id="myul" class="jstree-no-dots jstree-no-icons">
+            <li id="li1">
+                <a class="info_link" href="#">Ga</a>
+            </li>
+            <li id="li2">
+                <a class="info_link" href="#">fl</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+</body>
+</html>
